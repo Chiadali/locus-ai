@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>locus.ai — Platform Mockup</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D1117;--surface:#161B22;--surface2:#1C2333;--border:#2A3144;
+  --primary:#FE2C55;--primary-dim:#2d0810;--blue:#F77737;--blue-dim:#2d1808;
+  --amber:#FCAF45;--amber-dim:#2d1f08;--red:#EF4444;
+  --text:#E6EDF3;--text2:#8B949E;--text3:#484F58;
+  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;font-size:14px}
+.topbar{display:flex;align-items:center;padding:0 20px;height:52px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;gap:16px}
+.logo{font-size:18px;font-weight:600;letter-spacing:-.5px}
+.logo span{color:var(--primary)}
+.topbar-nav{display:flex;gap:2px;margin-left:8px}
+.tnav{padding:5px 13px;border-radius:6px;font-size:13px;cursor:pointer;color:var(--text2);border:none;background:none;font-family:var(--font);transition:all .15s}
+.tnav:hover{background:var(--surface2);color:var(--text)}
+.tnav.active{background:var(--primary-dim);color:var(--primary);font-weight:500}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.badge-live{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--primary);background:var(--primary-dim);padding:3px 10px;border-radius:20px}
+.dot-live{width:6px;height:6px;border-radius:50%;background:var(--primary);animation:blink 1.8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--blue)}
+.shell{display:flex;flex:1;overflow:hidden}
+.sidebar{width:200px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:12px 8px;gap:2px;overflow-y:auto}
+.sitem{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:7px;font-size:13px;cursor:pointer;color:var(--text2);transition:all .15s;border:none;background:none;font-family:var(--font);width:100%;text-align:left}
+.sitem:hover{background:var(--surface2);color:var(--text)}
+.sitem.active{background:var(--primary-dim);color:var(--primary);font-weight:500}
+.sitem svg{width:15px;height:15px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.5}
+.sidebar-sep{height:1px;background:var(--border);margin:6px 2px}
+.slabel{font-size:10px;font-weight:600;color:var(--text3);padding:6px 10px 2px;letter-spacing:.07em;text-transform:uppercase}
+.main{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+.hidden{display:none!important}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.stat-lbl{font-size:11px;color:var(--text2);margin-bottom:6px}
+.stat-val{font-size:22px;font-weight:600}
+.stat-sub{font-size:11px;color:var(--text2);margin-top:4px}
+.up{color:var(--primary)}.dn{color:var(--red)}
+.two-col{display:grid;grid-template-columns:1fr 320px;gap:12px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px}
+.ctitle{font-size:13px;font-weight:500;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.csub{font-size:11px;color:var(--text2);font-weight:400}
+.map-wrap{background:var(--surface2);border-radius:8px;overflow:hidden;height:310px;position:relative}
+.map-wrap svg{width:100%;height:100%}
+.ti{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.ti:last-child{border-bottom:none}
+.ti-rank{font-size:11px;font-family:var(--mono);color:var(--text3);width:18px}
+.ti-name{font-size:13px;font-weight:500}
+.ti-reg{font-size:11px;color:var(--text2)}
+.ti-bw{width:78px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;flex-shrink:0}
+.ti-b{height:100%;border-radius:2px;background:var(--primary)}
+.ti-pct{font-size:12px;font-family:var(--mono);color:var(--primary);width:42px;text-align:right;flex-shrink:0}
+.ai{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.ai:last-child{border-bottom:none}
+.adot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.ag{background:var(--primary)}.ay{background:var(--amber)}.ab{background:var(--blue)}
+.atitle{font-size:13px;font-weight:500;margin-bottom:2px}
+.ameta{font-size:11px;color:var(--text2)}
+.sr{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.sflag{font-size:14px}.slang{font-size:12px;color:var(--text2);width:55px}
+.sbw{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;display:flex}
+.sbp{height:100%;background:var(--primary)}.sbn{height:100%;background:var(--text3)}.sbr{height:100%;background:var(--red)}
+.sscore{font-size:11px;font-family:var(--mono);color:var(--primary);width:36px;text-align:right}
+.bc{display:flex;align-items:flex-end;gap:4px;height:96px;padding-top:8px}
+.bcc{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.bcb{width:100%;border-radius:3px 3px 0 0;background:var(--primary);opacity:.55;cursor:pointer;transition:opacity .15s}
+.bcb:hover,.bcb.hl{opacity:1}
+.bcl{font-size:9px;color:var(--text3);font-family:var(--mono)}
+.filter-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.chip{padding:4px 12px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--border);color:var(--text2);background:none;font-family:var(--font);transition:all .15s}
+.chip:hover{border-color:var(--primary);color:var(--primary)}
+.chip.on{border-color:var(--primary);background:var(--primary-dim);color:var(--primary);font-weight:500}
+.sbox{flex:1;max-width:240px;padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:12px;font-family:var(--font);outline:none}
+.sbox:focus{border-color:var(--primary)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:7px 10px;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border)}
+td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text2)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:500}
+.pg{background:var(--primary-dim);color:var(--primary)}
+.py{background:var(--amber-dim);color:var(--amber)}
+.pb{background:var(--blue-dim);color:var(--blue)}
+.sec-head{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+.rc{border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;gap:12px;align-items:flex-start;background:var(--surface);cursor:pointer;transition:border-color .15s;margin-bottom:8px}
+.rc:hover{border-color:var(--primary)}
+.ri{width:38px;height:38px;border-radius:8px;background:var(--primary-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.rt{font-size:13px;font-weight:500;margin-bottom:3px}
+.rm{font-size:11px;color:var(--text2)}
+.btn{padding:7px 18px;border-radius:7px;background:var(--primary);color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:var(--font)}
+.sel{width:100%;padding:7px 10px;border-radius:7px;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:12px;font-family:var(--font)}
+.inp{width:100%;padding:7px 10px;border-radius:7px;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:12px;font-family:var(--font);outline:none}
+.inp:focus{border-color:var(--primary)}
+.flbl{font-size:11px;color:var(--text2);margin-bottom:5px}
+.topic-row{display:flex;align-items:center;gap:9px;font-size:12px;margin-bottom:6px}
+.topic-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo">locus.ai<span>.</span></div>
+  <div class="topbar-nav">
+    <button class="tnav active" onclick="go('dashboard',this)">Dashboard</button>
+    <button class="tnav" onclick="go('destinazioni',this)">Destinazioni</button>
+    <button class="tnav" onclick="go('video',this)">Video Feed</button>
+    <button class="tnav" onclick="go('report',this)">Report</button>
+    <button class="tnav" onclick="go('alert',this)">Alert</button>
+  </div>
+  <div class="topbar-right">
+    <div class="badge-live"><div class="dot-live"></div>Live</div>
+    <div style="font-size:12px;color:var(--text2)">Aggiornato 3 min fa</div>
+    <div class="avatar">GT</div>
+  </div>
+</div>
+
+<div class="shell">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="slabel">Viste</div>
+  <button class="sitem active" onclick="go('dashboard',null,this)">
+    <svg viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+    Panoramica
+  </button>
+  <button class="sitem" onclick="go('destinazioni',null,this)">
+    <svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="3"/><path d="M8 15C8 15 2 10.5 2 6a6 6 0 0112 0c0 4.5-6 9-6 9z"/></svg>
+    Mappa trend
+  </button>
+  <button class="sitem" onclick="go('video',null,this)">
+    <svg viewBox="0 0 16 16"><rect x="1" y="3" width="10" height="10" rx="1.5"/><path d="M11 6l4-2v8l-4-2"/></svg>
+    Video analizzati
+  </button>
+  <button class="sitem" onclick="go('report',null,this)">
+    <svg viewBox="0 0 16 16"><path d="M3 2h7l3 3v9a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M10 2v4h4M5 8h6M5 11h4"/></svg>
+    Report
+  </button>
+  <div class="sidebar-sep"></div>
+  <div class="slabel">Strumenti</div>
+  <button class="sitem" onclick="go('alert',null,this)">
+    <svg viewBox="0 0 16 16"><path d="M8 1a5 5 0 015 5c0 3 1 4 1 5H2c0-1 1-2 1-5a5 5 0 015-5z"/><path d="M6.5 13a1.5 1.5 0 003 0"/></svg>
+    Alert attivi
+    <span style="margin-left:auto;background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px">3</span>
+  </button>
+  <div class="sidebar-sep"></div>
+  <div style="padding:8px 10px;font-size:11px;color:var(--text3);line-height:1.6">
+    Piano <span style="color:var(--blue)">Business</span><br>
+    <span style="color:var(--text2)">Italia · 12 lingue</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ═══ DASHBOARD ═══ -->
+  <div id="p-dashboard">
+    <div class="filter-row" style="margin-bottom:2px">
+      <button class="chip on">Tutti</button>
+      <button class="chip" onclick="this.classList.toggle('on')">Nord</button>
+      <button class="chip" onclick="this.classList.toggle('on')">Centro</button>
+      <button class="chip" onclick="this.classList.toggle('on')">Sud &amp; Isole</button>
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="chip on" onclick="this.classList.toggle('on')">7 gg</button>
+        <button class="chip" onclick="this.classList.toggle('on')">30 gg</button>
+        <button class="chip" onclick="this.classList.toggle('on')">90 gg</button>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-lbl">Video analizzati</div><div class="stat-val">14.832</div><div class="stat-sub"><span class="up">↑ 12%</span> vs settimana scorsa</div></div>
+      <div class="stat"><div class="stat-lbl">Destinazioni rilevate</div><div class="stat-val">238</div><div class="stat-sub"><span class="up">+21 nuove</span> questa settimana</div></div>
+      <div class="stat"><div class="stat-lbl">Trend in accelerazione</div><div class="stat-val" style="color:var(--primary)">17</div><div class="stat-sub"><span class="up">↑ +8</span> rispetto a 30 gg fa</div></div>
+      <div class="stat"><div class="stat-lbl">Sentiment medio</div><div class="stat-val" style="color:var(--primary)">87%</div><div class="stat-sub"><span class="up">↑ 3pt</span> positivo</div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="ctitle">Mappa trend — Italia <span class="csub">dimensione cerchio = velocità crescita</span></div>
+        <div class="map-wrap">
+          <svg viewBox="0 0 300 390">
+            <defs>
+              <pattern id="g" width="18" height="18" patternUnits="userSpaceOnUse">
+                <path d="M18 0H0V18" fill="none" stroke="#2A3144" stroke-width="0.4"/>
+              </pattern>
+            </defs>
+            <rect width="300" height="390" fill="#1C2333"/>
+            <rect width="300" height="390" fill="url(#g)"/>
+            <!-- Italy silhouette simplified -->
+            <path d="M95,28 L128,24 L152,32 L162,48 L158,68 L168,90 L174,112 L180,132 L188,152 L198,170 L208,184 L220,196 L232,208 L240,220 L244,232 L238,244 L226,254 L214,262 L205,270 L198,280 L190,285 L182,278 L176,266 L164,262 L152,268 L148,278 L146,290 L142,303 L132,310 L120,314 L108,309 L103,298 L107,286 L112,276 L108,265 L98,258 L88,248 L82,236 L78,222 L80,208 L84,196 L90,184 L92,170 L87,154 L80,138 L76,122 L77,106 L80,90 L83,74 L90,56 Z"
+              fill="#FE2C55" fill-opacity="0.06" stroke="#FE2C55" stroke-width="0.6" stroke-opacity="0.25"/>
+            <!-- Puglia -->
+            <circle cx="222" cy="218" r="24" fill="#FE2C55" fill-opacity="0.08"/>
+            <circle cx="222" cy="218" r="14" fill="#FE2C55" fill-opacity="0.18"/>
+            <circle cx="222" cy="218" r="7" fill="#FE2C55" fill-opacity="0.85"/>
+            <text x="240" y="215" fill="#FE2C55" font-size="9.5" font-family="DM Sans,sans-serif" font-weight="600">Puglia</text>
+            <text x="240" y="226" fill="#8B949E" font-size="8" font-family="DM Sans,sans-serif">+187%</text>
+            <!-- Matera -->
+            <circle cx="200" cy="252" r="17" fill="#F77737" fill-opacity="0.08"/>
+            <circle cx="200" cy="252" r="9" fill="#F77737" fill-opacity="0.18"/>
+            <circle cx="200" cy="252" r="5" fill="#F77737" fill-opacity="0.85"/>
+            <text x="212" y="249" fill="#F77737" font-size="9.5" font-family="DM Sans,sans-serif" font-weight="600">Matera</text>
+            <text x="212" y="260" fill="#8B949E" font-size="8" font-family="DM Sans,sans-serif">+124%</text>
+            <!-- Dolomiti -->
+            <circle cx="140" cy="76" r="19" fill="#FCAF45" fill-opacity="0.08"/>
+            <circle cx="140" cy="76" r="11" fill="#FCAF45" fill-opacity="0.18"/>
+            <circle cx="140" cy="76" r="6" fill="#FCAF45" fill-opacity="0.75"/>
+            <text x="156" y="73" fill="#FCAF45" font-size="9.5" font-family="DM Sans,sans-serif" font-weight="600">Dolomiti</text>
+            <text x="156" y="84" fill="#8B949E" font-size="8" font-family="DM Sans,sans-serif">+98%</text>
+            <!-- Cilento -->
+            <circle cx="172" cy="272" r="12" fill="#FE2C55" fill-opacity="0.1"/>
+            <circle cx="172" cy="272" r="6" fill="#FE2C55" fill-opacity="0.22"/>
+            <circle cx="172" cy="272" r="3.5" fill="#FE2C55" fill-opacity="0.7"/>
+            <text x="110" y="270" fill="#8B949E" font-size="8.5" font-family="DM Sans,sans-serif">Cilento  +76%</text>
+            <!-- Langhe -->
+            <circle cx="108" cy="118" r="11" fill="#FE2C55" fill-opacity="0.1"/>
+            <circle cx="108" cy="118" r="5.5" fill="#FE2C55" fill-opacity="0.2"/>
+            <circle cx="108" cy="118" r="3" fill="#FE2C55" fill-opacity="0.65"/>
+            <text x="116" y="116" fill="#8B949E" font-size="8" font-family="DM Sans,sans-serif">Langhe +52%</text>
+            <!-- Orvieto -->
+            <circle cx="138" cy="175" r="9" fill="#8B5CF6" fill-opacity="0.1"/>
+            <circle cx="138" cy="175" r="4.5" fill="#8B5CF6" fill-opacity="0.2"/>
+            <circle cx="138" cy="175" r="2.5" fill="#8B5CF6" fill-opacity="0.7"/>
+            <text x="146" y="174" fill="#8B949E" font-size="8" font-family="DM Sans,sans-serif">Orvieto +38%</text>
+            <!-- Legenda -->
+            <circle cx="18" cy="372" r="5" fill="#FE2C55" fill-opacity="0.7"/>
+            <text x="27" y="375" fill="#484F58" font-size="8" font-family="DM Sans,sans-serif">Alta velocità</text>
+            <circle cx="90" cy="372" r="3.5" fill="#F77737" fill-opacity="0.7"/>
+            <text x="98" y="375" fill="#484F58" font-size="8" font-family="DM Sans,sans-serif">In crescita</text>
+            <circle cx="155" cy="372" r="2.5" fill="#8B5CF6" fill-opacity="0.7"/>
+            <text x="162" y="375" fill="#484F58" font-size="8" font-family="DM Sans,sans-serif">Emergente</text>
+          </svg>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="card" style="flex:1">
+          <div class="ctitle">Top destinazioni · 7 giorni</div>
+          <div class="ti"><div class="ti-rank">01</div><div style="flex:1"><div class="ti-name">Puglia</div><div class="ti-reg">Sud · 12 province</div></div><div class="ti-bw"><div class="ti-b" style="width:100%"></div></div><div class="ti-pct">+187%</div></div>
+          <div class="ti"><div class="ti-rank">02</div><div style="flex:1"><div class="ti-name">Matera</div><div class="ti-reg">Basilicata</div></div><div class="ti-bw"><div class="ti-b" style="width:66%"></div></div><div class="ti-pct">+124%</div></div>
+          <div class="ti"><div class="ti-rank">03</div><div style="flex:1"><div class="ti-name">Dolomiti</div><div class="ti-reg">Trentino-AA</div></div><div class="ti-bw"><div class="ti-b" style="width:52%"></div></div><div class="ti-pct">+98%</div></div>
+          <div class="ti"><div class="ti-rank">04</div><div style="flex:1"><div class="ti-name">Cilento</div><div class="ti-reg">Campania</div></div><div class="ti-bw"><div class="ti-b" style="width:41%"></div></div><div class="ti-pct">+76%</div></div>
+          <div class="ti"><div class="ti-rank">05</div><div style="flex:1"><div class="ti-name">Langhe</div><div class="ti-reg">Piemonte</div></div><div class="ti-bw"><div class="ti-b" style="width:28%"></div></div><div class="ti-pct">+52%</div></div>
+        </div>
+        <div class="card">
+          <div class="ctitle">Alert recenti</div>
+          <div class="ai"><div class="adot ag"></div><div><div class="atitle">Puglia supera soglia +150%</div><div class="ameta">Germania, Olanda · 2h fa</div></div></div>
+          <div class="ai"><div class="adot ay"></div><div><div class="atitle">Creator virale — Alberobello</div><div class="ameta">4,2M views · FR · 5h fa</div></div></div>
+          <div class="ai"><div class="adot ab"></div><div><div class="atitle">Cilento: top 10 Corea del Sud</div><div class="ameta">Mercato emergente · ieri</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="three-col">
+      <div class="card">
+        <div class="ctitle">Sentiment per lingua · Puglia</div>
+        <div class="sr"><div class="sflag">🇩🇪</div><div class="slang">Tedesco</div><div class="sbw"><div class="sbp" style="width:78%"></div><div class="sbn" style="width:16%"></div><div class="sbr" style="width:6%"></div></div><div class="sscore">78%</div></div>
+        <div class="sr"><div class="sflag">🇫🇷</div><div class="slang">Francese</div><div class="sbw"><div class="sbp" style="width:85%"></div><div class="sbn" style="width:12%"></div><div class="sbr" style="width:3%"></div></div><div class="sscore">85%</div></div>
+        <div class="sr"><div class="sflag">🇬🇧</div><div class="slang">Inglese</div><div class="sbw"><div class="sbp" style="width:72%"></div><div class="sbn" style="width:20%"></div><div class="sbr" style="width:8%"></div></div><div class="sscore">72%</div></div>
+        <div class="sr"><div class="sflag">🇰🇷</div><div class="slang">Coreano</div><div class="sbw"><div class="sbp" style="width:91%"></div><div class="sbn" style="width:7%"></div><div class="sbr" style="width:2%"></div></div><div class="sscore">91%</div></div>
+      </div>
+      <div class="card">
+        <div class="ctitle">Menzioni · ultime 4 settimane</div>
+        <div class="bc" id="bc"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px"><span style="font-size:9px;color:var(--text3)">Sett 1</span><span style="font-size:9px;color:var(--text3)">Sett 4</span></div>
+      </div>
+      <div class="card">
+        <div class="ctitle">Temi più citati · Puglia</div>
+        <div class="topic-row"><div class="topic-icon" style="background:var(--primary-dim)">🌊</div><div style="flex:1"><div style="font-weight:500">Mare e coste</div><div style="color:var(--text2);font-size:11px">4.210 menzioni</div></div><div style="color:var(--primary);font-family:var(--mono);font-size:11px">34%</div></div>
+        <div class="topic-row"><div class="topic-icon" style="background:var(--amber-dim)">🍝</div><div style="flex:1"><div style="font-weight:500">Gastronomia</div><div style="color:var(--text2);font-size:11px">3.820 menzioni</div></div><div style="color:var(--amber);font-family:var(--mono);font-size:11px">31%</div></div>
+        <div class="topic-row"><div class="topic-icon" style="background:var(--blue-dim)">🏛️</div><div style="flex:1"><div style="font-weight:500">Patrimonio storico</div><div style="color:var(--text2);font-size:11px">2.110 menzioni</div></div><div style="color:var(--blue);font-family:var(--mono);font-size:11px">17%</div></div>
+        <div class="topic-row"><div class="topic-icon" style="background:var(--primary-dim)">🫶</div><div style="flex:1"><div style="font-weight:500">Ospitalità locale</div><div style="color:var(--text2);font-size:11px">1.240 menzioni</div></div><div style="color:var(--primary);font-family:var(--mono);font-size:11px">10%</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DESTINAZIONI ═══ -->
+  <div id="p-destinazioni" class="hidden">
+    <div class="filter-row">
+      <input class="sbox" placeholder="Cerca destinazione…" type="text">
+      <button class="chip on" onclick="this.classList.toggle('on')">Tutte le regioni</button>
+      <button class="chip" onclick="this.classList.toggle('on')">In accelerazione</button>
+      <button class="chip" onclick="this.classList.toggle('on')">Emergenti</button>
+      <button class="chip" onclick="this.classList.toggle('on')">Stabili</button>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr><th>#</th><th>Destinazione</th><th>Regione</th><th>Trend 7gg</th><th>Trend 30gg</th><th>Sentiment</th><th>Video</th><th>Lingua top</th><th>Stato</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td style="color:var(--text);font-weight:500">Puglia</td><td>Sud</td><td style="color:var(--primary)">+187%</td><td style="color:var(--primary)">+312%</td><td>87%</td><td>3.840</td><td>🇩🇪 DE</td><td><span class="pill pg">Esplosivo</span></td></tr>
+          <tr><td>2</td><td style="color:var(--text);font-weight:500">Matera</td><td>Basilicata</td><td style="color:var(--primary)">+124%</td><td style="color:var(--primary)">+198%</td><td>91%</td><td>2.210</td><td>🇫🇷 FR</td><td><span class="pill pg">Esplosivo</span></td></tr>
+          <tr><td>3</td><td style="color:var(--text);font-weight:500">Dolomiti</td><td>Trentino-AA</td><td style="color:var(--primary)">+98%</td><td style="color:var(--primary)">+145%</td><td>93%</td><td>1.920</td><td>🇩🇪 DE</td><td><span class="pill pg">Esplosivo</span></td></tr>
+          <tr><td>4</td><td style="color:var(--text);font-weight:500">Cilento</td><td>Campania</td><td style="color:var(--primary)">+76%</td><td style="color:var(--primary)">+88%</td><td>84%</td><td>980</td><td>🇰🇷 KR</td><td><span class="pill py">In crescita</span></td></tr>
+          <tr><td>5</td><td style="color:var(--text);font-weight:500">Langhe</td><td>Piemonte</td><td style="color:var(--primary)">+52%</td><td style="color:var(--primary)">+71%</td><td>88%</td><td>870</td><td>🇬🇧 EN</td><td><span class="pill py">In crescita</span></td></tr>
+          <tr><td>6</td><td style="color:var(--text);font-weight:500">Val d'Orcia</td><td>Toscana</td><td style="color:var(--primary)">+44%</td><td style="color:var(--primary)">+60%</td><td>95%</td><td>740</td><td>🇺🇸 EN</td><td><span class="pill py">In crescita</span></td></tr>
+          <tr><td>7</td><td style="color:var(--text);font-weight:500">Alberobello</td><td>Puglia</td><td style="color:var(--primary)">+38%</td><td style="color:var(--primary)">+54%</td><td>89%</td><td>620</td><td>🇫🇷 FR</td><td><span class="pill py">In crescita</span></td></tr>
+          <tr><td>8</td><td style="color:var(--text);font-weight:500">Isole Eolie</td><td>Sicilia</td><td style="color:var(--primary)">+31%</td><td style="color:var(--primary)">+40%</td><td>92%</td><td>510</td><td>🇩🇪 DE</td><td><span class="pill pb">Emergente</span></td></tr>
+          <tr><td>9</td><td style="color:var(--text);font-weight:500">Tropea</td><td>Calabria</td><td style="color:var(--primary)">+28%</td><td style="color:var(--primary)">+35%</td><td>86%</td><td>430</td><td>🇬🇧 EN</td><td><span class="pill pb">Emergente</span></td></tr>
+          <tr><td>10</td><td style="color:var(--text);font-weight:500">Orvieto</td><td>Umbria</td><td style="color:var(--primary)">+22%</td><td style="color:var(--primary)">+28%</td><td>90%</td><td>310</td><td>🇯🇵 JP</td><td><span class="pill pb">Emergente</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══ VIDEO ═══ -->
+  <div id="p-video" class="hidden">
+    <div class="filter-row">
+      <input class="sbox" placeholder="Cerca per destinazione, lingua, creator…" type="text">
+      <button class="chip on" onclick="this.classList.toggle('on')">TikTok</button>
+      <button class="chip on" onclick="this.classList.toggle('on')">Reels</button>
+      <button class="chip" onclick="this.classList.toggle('on')">YT Shorts</button>
+      <button class="chip" onclick="this.classList.toggle('on')">Solo virali</button>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Piattaforma</th><th>Destinazione</th><th>Lingua</th><th>Views</th><th>Sentiment</th><th>Temi estratti</th><th>Estratto trascrizione</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill pb">TikTok</span></td><td style="color:var(--text);font-weight:500">Alberobello, PU</td><td>🇫🇷 FR</td><td style="font-family:var(--mono)">4,2M</td><td style="color:var(--primary)">94%</td><td><span class="pill pg">trulli</span> <span class="pill pg">storia</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--text2)">"Ces maisons sont incroyables…"</td></tr>
+          <tr><td><span class="pill pg">Reels</span></td><td style="color:var(--text);font-weight:500">Matera, MT</td><td>🇩🇪 DE</td><td style="font-family:var(--mono)">2,8M</td><td style="color:var(--primary)">91%</td><td><span class="pill pg">sassi</span> <span class="pill py">cucina</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--text2)">"Die Höhlenwohnungen sind…"</td></tr>
+          <tr><td><span class="pill pb">TikTok</span></td><td style="color:var(--text);font-weight:500">Tropea, VV</td><td>🇬🇧 EN</td><td style="font-family:var(--mono)">1,9M</td><td style="color:var(--primary)">88%</td><td><span class="pill pg">mare</span> <span class="pill pg">cipolla</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--text2)">"The water here is literally…"</td></tr>
+          <tr><td><span class="pill pg">Reels</span></td><td style="color:var(--text);font-weight:500">Dolomiti, TN</td><td>🇰🇷 KR</td><td style="font-family:var(--mono)">1,4M</td><td style="color:var(--primary)">96%</td><td><span class="pill pb">montagna</span> <span class="pill pb">trekking</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--text2)">"돌로미티는 정말 믿을 수…"</td></tr>
+          <tr><td><span class="pill pb">TikTok</span></td><td style="color:var(--text);font-weight:500">Orvieto, TR</td><td>🇯🇵 JP</td><td style="font-family:var(--mono)">890K</td><td style="color:var(--primary)">92%</td><td><span class="pill py">duomo</span> <span class="pill py">vino</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--text2)">"オルヴィエートは隠れた宝石…"</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══ REPORT ═══ -->
+  <div id="p-report" class="hidden">
+    <div class="sec-head">Report generati</div>
+    <div class="rc"><div class="ri">📊</div><div style="flex:1"><div class="rt">Trend turistici Italia — Settimana 14/2025</div><div class="rm">PDF · 12 pag · generato 2 giorni fa · White-label attivo</div></div><button class="chip" style="flex-shrink:0">Scarica PDF</button></div>
+    <div class="rc"><div class="ri">🗺️</div><div style="flex:1"><div class="rt">Analisi mercato tedesco — Destinazioni italiane</div><div class="rm">PDF · 8 pag · generato 5 giorni fa · Focus 🇩🇪</div></div><button class="chip" style="flex-shrink:0">Scarica PDF</button></div>
+    <div class="rc"><div class="ri">📈</div><div style="flex:1"><div class="rt">Forecast Q2 2025 — Destinazioni emergenti Sud Italia</div><div class="rm">PDF · 16 pag · generato 1 settimana fa · Forecasting 90 gg</div></div><button class="chip" style="flex-shrink:0">Scarica PDF</button></div>
+    <div class="sec-head" style="margin-top:16px">Genera nuovo report</div>
+    <div class="card">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+        <div><div class="flbl">Destinazione</div><select class="sel"><option>Tutta Italia</option><option>Puglia</option><option>Matera</option><option>Dolomiti</option></select></div>
+        <div><div class="flbl">Periodo</div><select class="sel"><option>Ultimi 7 giorni</option><option>30 giorni</option><option>90 giorni</option></select></div>
+        <div><div class="flbl">Formato</div><select class="sel"><option>PDF white-label</option><option>PDF standard</option><option>CSV dati grezzi</option></select></div>
+      </div>
+      <button class="btn">Genera report</button>
+    </div>
+  </div>
+
+  <!-- ═══ ALERT ═══ -->
+  <div id="p-alert" class="hidden">
+    <div class="sec-head">Alert attivi — 3</div>
+    <div class="card" style="border-left:3px solid var(--primary);margin-bottom:8px">
+      <div style="display:flex;gap:12px;justify-content:space-between">
+        <div><div style="font-size:13px;font-weight:500;margin-bottom:4px">🟢 Puglia — Soglia +150% superata</div><div style="font-size:12px;color:var(--text2);margin-bottom:8px">Crescita +187% in 7 giorni. Mercati principali: Germania (+312%), Olanda (+201%).</div><div style="display:flex;gap:6px"><span class="pill pg">+187% in 7gg</span><span class="pill pb">4.2M reach stimato</span></div></div>
+        <div style="font-size:11px;color:var(--text3);flex-shrink:0">2h fa</div>
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber);margin-bottom:8px">
+      <div style="display:flex;gap:12px;justify-content:space-between">
+        <div><div style="font-size:13px;font-weight:500;margin-bottom:4px">🟡 Alberobello — Creator virale rilevato</div><div style="font-size:12px;color:var(--text2);margin-bottom:8px">Creator francese con 2,1M follower · video a 4,2M views. Temi: trulli, gastronomia pugliese.</div><div style="display:flex;gap:6px"><span class="pill py">Creator 2.1M</span><span class="pill pg">Sentiment 94%</span></div></div>
+        <div style="font-size:11px;color:var(--text3);flex-shrink:0">5h fa</div>
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--blue);margin-bottom:16px">
+      <div style="display:flex;gap:12px;justify-content:space-between">
+        <div><div style="font-size:13px;font-weight:500;margin-bottom:4px">🔵 Cilento — Prima apparizione top 10 Corea</div><div style="font-size:12px;color:var(--text2);margin-bottom:8px">Entrato per la prima volta nella top 10 delle destinazioni italiane citate da creator coreani.</div><div style="display:flex;gap:6px"><span class="pill pb">Nuovo mercato</span><span class="pill pg">Sentiment 91%</span></div></div>
+        <div style="font-size:11px;color:var(--text3);flex-shrink:0">ieri</div>
+      </div>
+    </div>
+    <div class="sec-head">Configura nuovo alert</div>
+    <div class="card">
+      <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end">
+        <div><div class="flbl">Destinazione da monitorare</div><input type="text" placeholder="es. Orvieto, Cilento…" class="inp"></div>
+        <div><div class="flbl">Soglia di attivazione</div><select class="sel"><option>+50% in 7 giorni</option><option>+100% in 7 giorni</option><option>+200% in 7 giorni</option><option>Creator virale rilevato</option></select></div>
+        <button class="btn">Aggiungi alert</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+const panels = ['dashboard','destinazioni','video','report','alert'];
+const sideMap = {dashboard:'Panoramica',destinazioni:'Mappa trend',video:'Video analizzati',report:'Report',alert:'Alert attivi'};
+const sideItems = document.querySelectorAll('.sitem');
+const topBtns  = document.querySelectorAll('.tnav');
+
+function go(id, topBtn, sideBtn) {
+  panels.forEach(p => {
+    const el = document.getElementById('p-'+p);
+    if(el) el.classList.toggle('hidden', p !== id);
+  });
+  topBtns.forEach(b => {
+    const txt = b.textContent.trim();
+    b.classList.toggle('active',
+      (id==='dashboard' && txt==='Dashboard') ||
+      (id==='destinazioni' && txt==='Destinazioni') ||
+      (id==='video' && txt==='Video Feed') ||
+      (id==='report' && txt==='Report') ||
+      (id==='alert' && txt==='Alert')
+    );
+  });
+  sideItems.forEach(b => {
+    b.classList.toggle('active', b.textContent.includes(sideMap[id]));
+  });
+}
+
+// Bar chart
+const bc = document.getElementById('bc');
+if(bc){
+  const vals=[28,32,38,35,42,48,44,50,58,65,70,68,75,82,88,95,90,102,112,124,118,135,148,162,155,172,188,200];
+  const mx=Math.max(...vals);
+  const wkLabels={3:'S1',10:'S2',17:'S3',24:'S4'};
+  vals.forEach((v,i)=>{
+    const col=document.createElement('div'); col.className='bcc';
+    const bar=document.createElement('div'); bar.className='bcb'+(i===vals.length-1?' hl':'');
+    bar.style.height=Math.round(v/mx*88)+'px';
+    col.appendChild(bar);
+    if(wkLabels[i]){const l=document.createElement('div');l.className='bcl';l.textContent=wkLabels[i];col.appendChild(l);}
+    bc.appendChild(col);
+  });
+}
+</script>
+</body>
+</html>
